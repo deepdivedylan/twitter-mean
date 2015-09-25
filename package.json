@@ -1,0 +1,20 @@
+{
+	"name": "twitter-mean",
+	"main": "server.js",
+	"license": "Apache-2.0",
+	"author": {
+		"name": "Dylan McDonald",
+		"email": "dylan@deepdivedylan.com",
+		"url": "https://www.deepdivedylan.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/dylan-mcdonald/twitter-mean.git"
+	},
+	"dependencies": {
+		"express": "latest",
+		"mongoose": "latest",
+		"body-parser": "latest",
+		"method-override": "latest"
+	}
+}
