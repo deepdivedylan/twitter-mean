@@ -1,4 +1,4 @@
-var Profile = require("models/profile");
+var Profile = require("./models/profile");
 
 module.exports = function(app) {
 	// example API route
@@ -14,6 +14,7 @@ module.exports = function(app) {
 
 	// example front end route
 	app.get("*", function(request, response) {
-		response.sendfile("public/views/index.html");
+		var path = require("path");
+		response.sendFile(path.join(__dirname, "../public/views", "index.html"));
 	});
 };
