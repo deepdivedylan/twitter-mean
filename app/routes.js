@@ -1,6 +1,32 @@
 var express = require("express");
 var Profile = require("./models/profile");
 
+/**
+ * creates a message containing a success condition
+ *
+ * @param message text describing the successful result
+ * @returns Object successful condition to report to the API
+ **/
+function createSuccessfulMessage(message) {
+	var reply = {};
+	reply.status = 200;
+	reply.message = message;
+	return(reply);
+}
+
+/**
+ * creates an object containing a successful result of a query
+ *
+ * @param data result of the query to encapsulate
+ * @returns Object successful query result to report to the API
+ **/
+function createSuccessfulReply(data) {
+	var reply = {};
+	reply.status = 200;
+	reply.data = data;
+	return(reply);
+}
+
 module.exports = function(app) {
 	// get an instance of the express Router
 	var router = express.Router();
@@ -29,7 +55,7 @@ module.exports = function(app) {
 					response.send(error);
 				}
 
-				response.json({status: 200, message: "profile created"});
+				response.json(createSuccessfulMessage("profile created"));
 			});
 		})
 
@@ -41,7 +67,7 @@ module.exports = function(app) {
 					response.send(error);
 				}
 
-				response.json(profiles);
+				response.json(createSuccessfulReply(profiles));
 			});
 		});
 
@@ -55,7 +81,7 @@ module.exports = function(app) {
 					response.send(error);
 				}
 
-				response.json(profile);
+				response.json(createSuccessfulReply(profile));
 			});
 		})
 
@@ -77,11 +103,12 @@ module.exports = function(app) {
 						response.send(error);
 					}
 
-					response.json({status: 200, message: "profile updated"});
+					response.json(createSuccessfulMessage("profile updated"));
 				});
 			});
 		})
 
+		// delete a specific profile
 		.delete(function(request, response) {
 			Profile.remove({
 				_id: request.params.profileId
@@ -91,16 +118,16 @@ module.exports = function(app) {
 					response.send(error);
 				}
 
-				response.json({status: 200, message: "profile deleted"});
+				response.json(createSuccessfulMessage("profile deleted"));
 			});
 		});
 
+	// all of our routes will be prefixed with /api
+	app.use("/api", router);
+
 	// example front end route
-	app.get("/", function(request, response) {
+	app.get("*", function(request, response) {
 		var path = require("path");
 		response.sendFile(path.join(__dirname, "../public/views", "index.html"));
 	});
-
-	// all of our routes will be prefixed with /api
-	app.use("/api", router);
 };
