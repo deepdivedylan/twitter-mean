@@ -4,13 +4,13 @@ app.config(function($locationProvider, $routeProvider) {
 	$routeProvider
 		// home page
 		.when("/", {
-			templateUrl: "views/home.html",
+			templateUrl: "/views/home.html",
 			controller: "MainController"
 		})
 
 		// profile page that will use the ProfileController
-		.when("/profile", {
-			templateUrl: "views/profile.html",
+		.when("/profile/", {
+			templateUrl: "/views/profile.html",
 			controller: "ProfileController"
 		});
 
