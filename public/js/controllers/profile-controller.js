@@ -53,18 +53,29 @@ app.controller("ProfileController", ["$modal", "$scope", "ProfileService", funct
 		});
 	};
 
+	$scope.updateProfile = function(profile, validated) {
+		if(validated === true) {
+			ProfileService.update(profile._id, profile)
+				.then(function(result) {
+					$scope.addAlert(result);
+					$scope.cancelEditing();
+					$scope.getProfiles();
+				});
+		}
+	};
+
 	$scope.initCreateForm = function() {
 		$scope.newProfile = {atHandle: "", email: "", phone: ""};
 	};
 
 	$scope.setEditedProfile = function(profile) {
-		$scope.editedTweet = angular.copy(profile);
+		$scope.editedProfile = angular.copy(profile);
 		$scope.isEditing = true;
 	};
 
 	$scope.cancelEditing = function() {
-		$scope.editedProfile = null;
 		$scope.isEditing = false;
+		$scope.editedProfile = null;
 	};
 
 	$scope.closeAlert = function(index) {
