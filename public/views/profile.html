@@ -3,15 +3,106 @@
 
 	<p>{{ tagline }}</p>
 </div>
+<form name="addProfileForm" id="addProfileForm" class="form-horizontal well" ng-submit="createProfile(newProfile, addProfileForm.$valid);" ng-hide="isEditing" novalidate>
+	<h2>Create Profile</h2>
+	<hr />
+	<div class="form-group" ng-class="{ 'has-error': addProfileForm.atHandle.$touched && addProfileForm.atHandle.$invalid }">
+		<label for="atHandle">At Handle</label>
+		<div class="input-group">
+			<div class="input-group-addon"><i class="fa fa-at"></i></div>
+			<input type="text" name="atHandle" class="form-control" maxlength="32" ng-model="newProfile.atHandle" ng-minlength="1" ng-maxlength="32" ng-required="true" />
+		</div>
+		<div class="alert alert-danger" role="alert" ng-messages="addProfileForm.atHandle.$error" ng-if="addProfileForm.atHandle.$touched" ng-hide="addProfileForm.atHandle.$valid">
+			<p ng-message="required">At handle is required.</p>
+			<p ng-message="minlength">At handle cannot be empty.</p>
+			<p ng-message="maxlength">At handle is too long.</p>
+		</div>
+	</div>
+	<div class="form-group" ng-class="{ 'has-error': addProfileForm.email.$touched && addProfileForm.email.$invalid }">
+		<label for="email">Email</label>
+		<div class="input-group">
+			<div class="input-group-addon"><i class="fa fa-envelope"></i></div>
+			<input type="email" name="email" class="form-control" maxlength="32" ng-model="newProfile.email" ng-minlength="1" ng-maxlength="128" ng-required="true" />
+		</div>
+		<div class="alert alert-danger" role="alert" ng-messages="addProfileForm.email.$error" ng-if="addProfileForm.email.$touched" ng-hide="addProfileForm.email.$valid">
+			<p ng-message="email">Email is not a valid Email address.</p>
+			<p ng-message="required">Email is required.</p>
+			<p ng-message="minlength">Email cannot be empty.</p>
+			<p ng-message="maxlength">Email is too long.</p>
+		</div>
+	</div>
+	<div class="form-group" ng-class="{ 'has-error': addProfileForm.phone.$touched && addProfileForm.phone.$invalid }">
+		<label for="phone">Phone Number</label>
+		<div class="input-group">
+			<div class="input-group-addon"><i class="fa fa-phone"></i></div>
+			<input type="text" name="phone" class="form-control" maxlength="32" ng-model="newProfile.phone" ng-minlength="1" ng-maxlength="32" />
+		</div>
+		<div class="alert alert-danger" role="alert" ng-messages="addProfileForm.phone.$error" ng-if="addProfileForm.phone.$touched" ng-hide="addProfileForm.phone.$valid">
+			<p ng-message="maxlength">Phone is too long.</p>
+		</div>
+	</div>
+	<button type="submit" class="btn btn-info btn-lg" ng-disabled="addProfileForm.$invalid"><i class="fa fa-user-plus"></i> Create Profile</button>
+	<button type="reset" class="btn btn-warning btn-lg"><i class="fa fa-ban"></i> Clear</button>
+</form>
+<form name="editTweetForm" id="editTweetForm" class="form-horizontal well" ng-submit="updateTweet(editedTweet, editTweetForm.$valid);" ng-show="isEditing" novalidate>
+	<h2>Edit Tweet</h2>
+	<hr />
+	<div class="form-group" ng-class="{ 'has-error': editTweetForm.editProfileId.$touched && editTweetForm.editProfileId.$invalid }">
+		<label for="editProfileId">Profile Id</label>
+		<input type="number" name="editProfileId" id="editProfileId" class="form-control" min="1" step="1" ng-model="editedTweet.profileId" ng-pattern="/^\d+$/" ng-required="true" />
+		<div class="alert alert-danger" role="alert" ng-messages="editTweetForm.editProfileId.$error" ng-if="editTweetForm.editProfileId.$touched" ng-hide="editTweetForm.editProfileId.$valid">
+			<p ng-message="required">Profile id is required.</p>
+			<p ng-message="pattern">Profile id must be a positive integer.</p>
+		</div>
+	</div>
+	<div class="form-group" ng-class="{ 'has-error': editTweetForm.editTweetContent.$touched && editTweetForm.editTweetContent.$invalid }">
+		<label for="editTweetContent">Tweet Content</label>
+		<div class="input-group">
+			<input type="text" name="editTweetContent" id="editTweetContent" class="form-control" maxlength="140" ng-model="editedTweet.tweetContent" ng-minlength="1" ng-maxlength="140" ng-required="true" />
+		</div>
+		<div class="alert alert-danger" role="alert" ng-messages="editTweetForm.editTweetContent.$error" ng-if="editTweetForm.editTweetContent.$touched" ng-hide="editTweetForm.editTweetContent.$valid">
+			<p ng-message="required">Tweet content is required.</p>
+			<p ng-message="minlength">Tweet content cannot be empty.</p>
+			<p ng-message="maxlength">Tweet content is too long.</p>
+		</div>
+	</div>
+	<div class="form-group" ng-class="{ 'has-error': editTweetForm.editTweetDate.$touched && editTweetForm.editTweetDate.$invalid }">
+		<label for="editTweetDate">Tweet Date</label>
+		<div class="dropdown">
+			<a class="dropdown-toggle" id="editTweetDateDropdown" role="button" data-toggle="dropdown" data-target="#">
+				<div class="input-group">
+					<input type="text" id="editTweetDate" name="editTweetDate" class="form-control" ng-model="editedTweet.tweetDate">
+					<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+				</div>
+			</a>
+			<ul class="dropdown-menu" role="menu" aria-labelledby="editTweetDateDropdown">
+				<datetimepicker ng-model="editedTweet.tweetDate"
+								data-datetimepicker-config="{ dropdownSelector: '#editTweetDateDropdown', minuteStep: 1 }">
+				</datetimepicker>
+			</ul>
+		</div>
+	</div>
+	<button type="submit" class="btn btn-info btn-lg" ng-disabled="editTweetForm.$invalid"><i class="fa fa-twitter"></i> Save</button>
+	<button class="btn btn-warning btn-lg" ng-click="cancelEditing();"><i class="fa fa-times"></i> Cancel</button>
+</form>
+<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+<h2>Existing Profiles</h2>
 <table class="table table-bordered table-hover table-responsive table-striped">
 	<tr>
 		<th>At Handle</th>
 		<th>Email</th>
 		<th>Phone Number</th>
+		<th>Actions</th>
 	</tr>
 	<tr ng-repeat="profile in profiles">
 		<td>{{ profile.atHandle }}</td>
 		<td>{{ profile.email }}</td>
 		<td>{{ profile.phone }}</td>
+		<td>
+			<button class="btn btn-info" ng-click="setEditedProfile(profile);"><i class="fa fa-pencil"></i></button>
+			<form class="inline" ng-submit="deleteProfile(profile._id);">
+				<button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+			</form>
+		</td>
 	</tr>
 </table>
