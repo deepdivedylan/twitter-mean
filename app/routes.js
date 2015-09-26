@@ -1,13 +1,9 @@
 var express = require("express");
-var mongoose = require("mongoose");
 var Profile = require("./models/profile");
 
 module.exports = function(app) {
 	// get an instance of the express Router
 	var router = express.Router();
-
-	// connect to MongoDB
-	mongoose.connect("mongodb://localhost/twitter-mean");
 
 	// middleware to use for all requests
 	router.use(function(request, response, next) {
