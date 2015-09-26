@@ -3,3 +3,15 @@
 
 	<p>{{ tagline }}</p>
 </div>
+<table class="table table-bordered table-hover table-responsive table-striped">
+	<tr>
+		<th>At Handle</th>
+		<th>Email</th>
+		<th>Phone Number</th>
+	</tr>
+	<tr ng-repeat="profile in profiles">
+		<td>{{ profile.atHandle }}</td>
+		<td>{{ profile.email }}</td>
+		<td>{{ profile.phone }}</td>
+	</tr>
+</table>
