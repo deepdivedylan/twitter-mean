@@ -7,6 +7,7 @@
 		"animate.css": "latest",
 		"angular": "latest",
 		"angular-bootstrap": "latest",
+		"angular-messages": "latest",
 		"angular-route": "latest",
 		"angular-sanitize": "latest"
 	}
