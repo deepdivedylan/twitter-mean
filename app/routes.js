@@ -1,5 +1,6 @@
 var express = require("express");
 var Profile = require("./models/profile");
+var Tweet = require("./models/tweet");
 
 /**
  * creates a message containing a success condition
